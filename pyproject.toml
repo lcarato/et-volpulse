@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=67"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "et_vol_pulse"
+version = "0.1.0"
+description = "Daily, volatility-centric risk dashboard for energy-transition markets"
+authors = [{name="ET Labs"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "yfinance",
+    "alpha-vantage-timeseries",
+    "pandas",
+    "numpy",
+    "scipy",
+    "streamlit",
+    "pyyaml",
+    "python-dotenv",
+    "weasyprint",
+    "jinja2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "pytest-httpx",
+    "black==24.4",
+    "mypy",
+    "pre-commit",
+]
+
+[project.scripts]
+et-vol-report = "et_vol_pulse.report:main"

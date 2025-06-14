@@ -1,0 +1,24 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install .[dev]
+      - run: pytest --cov=et_vol_pulse
+      - name: completeness check
+        run: |
+          python - <<'PY'
+import sys
+from et_vol_pulse.validation import main
+sys.exit(main())
+PY
+      - name: Deploy to Streamlit Cloud
+        if: success()
+        run: streamlit deploy
+        env:
+          STREAMLIT_CLOUD_URL: ${{ secrets.STREAMLIT_CLOUD_URL }}
